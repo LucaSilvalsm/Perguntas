@@ -10,12 +10,16 @@ app.use(express.static('public'));
 // rota principal
 
 app.get('/', (req, res) => {
-    
-  res.render('index');
+
+    res.render('index');
 });
 app.get('/perguntas', (req, res) => {
-    
-  res.render('perguntas');
+    console.log("Acessando a rota das perguntas")
+    res.render('perguntas');
 })
 
-app.listen(8080,()=>{console.log('App rodando')})
+app.get('/cadastro', (req, res) => {
+    console.log("Acessando a rota do cadastro")
+    res.render('cadastro');
+})
+app.listen(8080, () => { console.log('App rodando') })

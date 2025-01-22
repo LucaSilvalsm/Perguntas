@@ -1,0 +1,45 @@
+<%- include('partials/header') %>
+
+<%- include('partials/navbar') %>
+
+<body>
+
+
+    
+    <div class="container">
+        <div class="card" id="formulario-perguntas">
+            <div class="card-header">
+                <h1 class="title">Realiza o seu cadastro</h1>
+            </div>
+            <div class="card-body">
+                <form action="">
+                    <div class="mb-3">
+                        <label for="text" class="form-label">Nome: </label>
+                        <input type="text" class="form-control" id="nome" name="nome">
+                    </div>
+                    <div class="mb-3">
+                        <label for="text" class="form-label">Sobrenome: </label>
+                        <input type="text" class="form-control" id="sobrenome" name="sobrenome">
+                    </div>
+                    <div class="mb-3">
+                        <label for="senha" class="form-label">Senha: </label>
+                        <input type="password" class="form-control" id="senha" name="senha">
+                    </div>
+                    <div class="mb-3">
+                        <label for="senha" class="form-label">Confirme a senha: </label>
+                        <input type="password" class="form-control" id="confirma_senha" name="confirma_senha">
+                    </div>                    
+                    <button type="button" class="btn btn-success">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</body>
+<%- include('partials/footer') %>
+
+
+</html>
