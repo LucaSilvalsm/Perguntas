@@ -1,17 +1,14 @@
 <%- include('partials/header') %>
 
 <%- include('partials/navbar') %>
-
-
-<body>
-    
+<body>    
     <div class="container">
         <div class="card" id="formulario-perguntas">
             <div class="card-header">
                 <h1 class="title">Realiza a sua Pergunta</h1>
             </div>
             <div class="card-body">
-                <form action="" method="POST">
+                <form action="/process_forms" method="POST">
                     <div class="mb-3">
                         <label for="text" class="form-label">Titulo da Pergunta</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" name="titulo">
@@ -19,19 +16,13 @@
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Faça sua Pergunta</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                            placeholder="Faça a sua pergunta"></textarea>
+                            placeholder="Faça a sua pergunta" name="pergunta"></textarea>
                     </div>
-                    <button type="button" class="btn btn-success">Perguntar</button>
+                    <button type="submit" class="btn btn-success">Perguntar</button>
                 </form>
             </div>
         </div>
-
-    </div>
-
-
-
-
-   
+    </div>   
 </body>
 <%- include('partials/footer') %>
 

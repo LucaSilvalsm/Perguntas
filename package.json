@@ -9,8 +9,14 @@
   "author": "Lucas Moreira",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.3",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
-    "perguntas": "file:"
+    "mariadb": "^3.4.0",
+    "mysql2": "^3.12.0",
+    "perguntas": "file:",
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.5"
   }
 }
