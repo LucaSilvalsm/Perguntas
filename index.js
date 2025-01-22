@@ -3,16 +3,19 @@ const app = express();
 
 // Setando o Express para usar o EJS
 app.set('view engine', 'ejs');
+// Setando arquivos estaticos como CSS
+
+app.use(express.static('public'));
 
 // rota principal
 
 app.get('/', (req, res) => {
-    let nome = "Lucas Moreira"
-    let skills = "Desenvolvedor Backend com Python, Node e PHP"
-  res.render('index', {nome: nome, skills: skills});
+    
+  res.render('index');
 });
-app.get('/teste', (req,res) => {
-    res.render('teste');
-});
+app.get('/perguntas', (req, res) => {
+    
+  res.render('perguntas');
+})
 
 app.listen(8080,()=>{console.log('App rodando')})
