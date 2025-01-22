@@ -12,7 +12,7 @@
                 <h1 class="title">Realiza o seu cadastro</h1>
             </div>
             <div class="card-body">
-                <form action="">
+                <form action="/criando_usuario" method="POST">
                     <div class="mb-3">
                         <label for="text" class="form-label">Nome: </label>
                         <input type="text" class="form-control" id="nome" name="nome">
@@ -22,6 +22,10 @@
                         <input type="text" class="form-control" id="sobrenome" name="sobrenome">
                     </div>
                     <div class="mb-3">
+                        <label for="text" class="form-label">Email: </label>
+                        <input type="text" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="mb-3">
                         <label for="senha" class="form-label">Senha: </label>
                         <input type="password" class="form-control" id="senha" name="senha">
                     </div>
@@ -29,7 +33,7 @@
                         <label for="senha" class="form-label">Confirme a senha: </label>
                         <input type="password" class="form-control" id="confirma_senha" name="confirma_senha">
                     </div>                    
-                    <button type="button" class="btn btn-success">Cadastrar</button>
+                    <button type="submit" class="btn btn-success">Cadastrar</button>
                 </form>
             </div>
         </div>
