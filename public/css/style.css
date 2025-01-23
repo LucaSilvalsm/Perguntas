@@ -4,4 +4,8 @@ body{
 #formulario-perguntas{
     margin-top: 3vh; /*VH = Altura da Tela */
 }
-
+.title{
+    text-align: center;
+    font-size: 20px;
+    
+}

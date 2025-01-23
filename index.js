@@ -5,7 +5,30 @@ const bodyParser = require('body-parser');
 const conexao = require('./Database/database');
 const perguntaModel = require('./Model/Perguntas'); 
 const usuarioModel = require('./Model/Usuarios'); 
+const Resposta = require('./Model/Resposta');
+const Usuarios = require('./Model/Usuarios');
+
 const bcrypt = require('bcrypt');
+
+// adicionando a session 
+const session = require('express-session');
+const crypto = require('crypto');
+
+// Gerar uma chave secreta de 24 bytes
+const secretKey = crypto.randomBytes(24).toString('hex');
+
+app.use(session({
+    secret: secretKey, // Chave secreta gerada dinamicamente
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 3600000 // 1 hora
+    }
+}));
+app.get('/session', (req, res) => {
+    res.json({ usuarioId: req.session.usuarioId });
+});
+
 
 
 // Número de "salts" (quanto maior, mais seguro, mas também mais lento)
@@ -27,14 +50,84 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 // Rota principal
-app.get('/', (req, res) => {
-    res.render('index');
+app.get('/', (req, res) => {    
+    perguntaModel.findAll({raw: true,order:[
+        ['id', 'DESC']  // Ordena por id em ordem decrescente
+    ]}).then(perguntas =>{
+        res.render('index',{            
+            perguntas: perguntas
+        });        
+    })
 });
+app.get('/perguntas/:id', (req, res) => {
+    const id = req.params.id;
+
+    // Buscar a pergunta pelo ID
+    perguntaModel.findByPk(id).then((pergunta) => {
+        if (pergunta) {
+            // Buscar todas as respostas relacionadas à pergunta, incluindo o usuário associado a cada resposta
+            Resposta.findAll({
+                where: {
+                    perguntaId: pergunta.id
+                },
+                include: [{
+                    model: Usuarios,  // Relaciona as respostas aos usuários
+                    attributes: ['nome', 'sobrenome']  // Retorna apenas o nome e sobrenome do usuário
+                }]
+            }).then((respostas) => {
+                res.render('perguntas_id', {
+                    pergunta: pergunta,
+                    respostas: respostas  // Passa as respostas com os dados do usuário
+                });
+            }).catch((err) => {
+                console.log('Erro ao buscar respostas:', err);
+                res.redirect('/');
+            });
+        } else {
+            console.log('Pergunta não encontrada');
+            res.redirect('/');
+        }
+    }).catch((error) => {
+        console.log('Erro ao buscar pergunta:', error);
+        res.redirect('/');
+    });
+});
+
+
+
+app.post('/resposta', (req, res) => {
+    console.log('Sessão ativa no POST /resposta:', req.session);
+    
+    const perguntaId = req.body.pergunta_id;
+    const resposta = req.body.resposta;
+    const usuario_id = req.session.usuarioId;
+    console.log("Pergunta id" + perguntaId);
+    console.log("Resposta " + resposta);
+    console.log("Usuario_id " + usuario_id);
+
+    Resposta.create({
+        perguntaId: perguntaId,
+        resposta: resposta,
+        usuarioId: usuario_id
+    }).then(() => {
+        console.log('Resposta salva com sucesso!');
+        res.redirect(`/perguntas/${perguntaId}`);
+    }).catch((err) => {
+        console.log('Erro ao salvar resposta:', err);
+        res.redirect(`/perguntas/${perguntaId}`);
+    });
+    
+    
+
+    
+});
+
 
 app.get('/perguntas', (req, res) => {
     console.log("Acessando a rota das perguntas");
     res.render('perguntas');
 });
+
 
 app.get('/cadastro', (req, res) => {
     console.log("Acessando a rota do cadastro");
@@ -115,6 +208,10 @@ app.post('/process_login', async (req, res) => {
 
             if (match) {
                 console.log('Login bem-sucedido');
+                
+                // Salvar o ID do usuário na sessão
+                req.session.usuarioId = usuario.id;
+
                 res.redirect('/');
             } else {
                 console.log('Senha incorreta');
@@ -129,6 +226,8 @@ app.post('/process_login', async (req, res) => {
         res.redirect('/login');
     });
 });
+
+
 app.listen(8080, () => {
     console.log('App rodando');
 });

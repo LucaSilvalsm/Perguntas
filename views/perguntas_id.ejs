@@ -1,0 +1,66 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<body>
+    <div class="container mt-5">
+        <div class="card" id="formulario-perguntas">
+            <div class="card-header">
+                <h2 class="title"><%= pergunta.titulo %></h2>
+            </div>
+            <div class="card-body">
+                <p><%= pergunta.descricao %></p>
+                <!-- Botão para abrir o modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#responderModal">
+                    Responder
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="responderModal" tabindex="-1" aria-labelledby="responderModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="responderModalLabel"><%= pergunta.titulo %></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/resposta" method="POST">
+                        <div class="mb-3">
+                            <input type="hidden" name="pergunta_id" value="<%= pergunta.id || '' %>">
+
+                            <label for="resposta" class="form-label">Sua resposta</label>
+                            <textarea class="form-control" id="resposta" name="resposta" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Enviar Resposta</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exibindo respostas -->
+    <% if (respostas.length > 0) { %>
+        <div class="container mt-5">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="title">Respostas</h2>
+                </div>
+                <ul class="list-group">
+                    <% respostas.forEach((resposta) => { %>
+                        <li class="list-group-item">
+                            <p><strong><%= resposta.Usuario.nome %> <%= resposta.Usuario.sobrenome %>:</strong></p>
+                            <p><%= resposta.resposta %></p>
+                        </li>
+                    <% }) %>
+                </ul>
+            </div>
+        </div>
+    <% } else { %>
+        <p class="mt-5">Nenhuma resposta ainda.</p>
+    <% } %>
+</body>
+
+<%- include('partials/footer') %>

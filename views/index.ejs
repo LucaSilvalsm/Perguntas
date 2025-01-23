@@ -5,9 +5,24 @@
 <body>
 
 
-    <h1>Estilo Boostrap</h1>
-    <h2>Testando o Servidor</h2>
-
+    <div class="container">
+        <hr>
+        <h1 class="title">Perguntas</h1>
+        <hr>
+        <% perguntas.forEach(pergunta => { %>
+            <br>
+            <div class="card">
+                <div class="card-body">
+                    <a href="/perguntas/<%= pergunta.id %>"><h2 class="title"> <%= pergunta.titulo  %> </h2></a>
+                </div>
+                <div class="card-footer">
+                    
+                    <a href="/perguntas/<%= pergunta.id %>" class="btn btn-primary"> Responder</a>
+                </div>
+            </div>
+            
+       <% }) %>
+    </div>
 
 
 
